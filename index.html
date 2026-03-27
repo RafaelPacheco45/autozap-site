@@ -868,7 +868,7 @@
               <button type="button" class="mp-btn" id="mercadopago-button">Pagar com Mercado Pago</button>
               <a class="btn btn-secondary" href="https://wa.me/5511992104554" target="_blank" rel="noopener noreferrer">Falar com suporte</a>
             </div>
-            <p class="helper-text">O botão já está pronto visualmente. No próximo passo, ele deve ser ligado ao checkout real no backend.</p>
+            <p class="helper-text">O botão está pronto para enviar os dados ao backend e iniciar o checkout real.</p>
 
             <div class="login-box" id="login">
               <strong style="display:block; margin-bottom:8px;">Já tem conta?</strong>
@@ -936,9 +936,11 @@
     const summaryPrice = document.getElementById('summary-price');
     const mpButton = document.getElementById('mercadopago-button');
 
+    const API_BASE = 'https://SEU-BACKEND-AQUI.com';
+
     function setPlan(planName, price) {
-      summaryPlan.textContent = planName;
-      summaryPrice.textContent = `R$ ${price}`;
+      if (summaryPlan) summaryPlan.textContent = planName;
+      if (summaryPrice) summaryPrice.textContent = `R$ ${price}`;
 
       if (planSelect) {
         const option = Array.from(planSelect.options).find(opt => opt.value === planName);
@@ -950,6 +952,31 @@
       });
     }
 
+    function collectCheckoutForm() {
+      const form = document.getElementById('checkout-form');
+
+      return {
+        nome: form.nome.value.trim(),
+        telefone: form.telefone.value.trim(),
+        email: form.email.value.trim().toLowerCase(),
+        senha: form.senha.value.trim(),
+        loja: form.loja.value.trim(),
+        responsavel: form.responsavel.value.trim(),
+        endereco: form.endereco.value.trim(),
+        nicho: form.nicho.value.trim(),
+        plano: form.plano.value.trim(),
+        descricao: form.descricao.value.trim()
+      };
+    }
+
+    function validateCheckoutForm(data) {
+      if (!data.nome || !data.telefone || !data.email || !data.senha) {
+        alert('Preencha nome, telefone, e-mail e senha.');
+        return false;
+      }
+      return true;
+    }
+
     planCards.forEach(card => {
       card.addEventListener('click', () => {
         setPlan(card.dataset.plan, card.dataset.price);
@@ -959,38 +986,42 @@
     if (planSelect) {
       planSelect.addEventListener('change', (e) => {
         const selected = Array.from(planCards).find(card => card.dataset.plan === e.target.value);
-        if (selected) setPlan(selected.dataset.plan, selected.dataset.price);
+        if (selected) {
+          setPlan(selected.dataset.plan, selected.dataset.price);
+        }
       });
     }
 
     if (mpButton) {
       mpButton.addEventListener('click', async () => {
-        const form = document.getElementById('checkout-form');
-        const formData = {
-          nome: form.nome.value,
-          telefone: form.telefone.value,
-          email: form.email.value,
-          senha: form.senha.value,
-          loja: form.loja.value,
-          responsavel: form.responsavel.value,
-          endereco: form.endereco.value,
-          nicho: form.nicho.value,
-          plano: form.plano.value,
-          descricao: form.descricao.value,
-        };
+        const formData = collectCheckoutForm();
 
-        const res = await fetch('http://localhost:3000/create-checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
+        if (!validateCheckoutForm(formData)) return;
 
-        const data = await res.json();
+        mpButton.disabled = true;
+        mpButton.textContent = 'Processando...';
 
-        if (data.checkout_url) {
-          window.location.href = data.checkout_url;
-        } else {
-          alert('Erro ao iniciar pagamento');
+        try {
+          const res = await fetch(`${API_BASE}/create-checkout`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+
+          const data = await res.json();
+
+          if (data.checkout_url) {
+            window.location.href = data.checkout_url;
+            return;
+          }
+
+          alert(data.error || 'Erro ao iniciar pagamento');
+        } catch (err) {
+          console.error(err);
+          alert('Erro ao conectar com o servidor');
+        } finally {
+          mpButton.disabled = false;
+          mpButton.textContent = 'Pagar com Mercado Pago';
         }
       });
     }
