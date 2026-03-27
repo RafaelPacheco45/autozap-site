@@ -1,0 +1,7 @@
+{
+  "use_ai": false,
+  "openai_key": "",
+  "business_name": "Minha Empresa",
+  "business_info": "Informações do negócio aqui",
+  "system_prompt": "Você é um atendente profissional."
+}
