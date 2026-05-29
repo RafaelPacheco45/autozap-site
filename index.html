@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AutoZap</title>
+    <meta name="description" content="AutoZap: IA, gestão e marketing para lojas de celulares.">
+    <style>
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        background: #f5f9ff;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #07133f;
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+      }
+
+      .loader {
+        display: grid;
+        justify-items: center;
+        gap: 14px;
+        padding: 24px;
+        text-align: center;
+      }
+
+      .loader img {
+        width: 160px;
+        height: auto;
+      }
+
+      .loader strong {
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="loader" aria-live="polite">
+      <img src="autozap-logo.png" alt="AutoZap">
+      <strong>Carregando AutoZap...</strong>
+      <noscript>
+        <p>
+          <a href="desktop.html">Abrir versão desktop</a> |
+          <a href="mobile.html">Abrir versão mobile</a>
+        </p>
+      </noscript>
+    </main>
+    <script>
+      const isMobile = window.matchMedia("(max-width: 853px)").matches;
+      window.location.replace(isMobile ? "mobile.html" : "desktop.html");
+    </script>
+  </body>
+</html>

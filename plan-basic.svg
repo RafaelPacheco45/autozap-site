@@ -1,0 +1,34 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="edge" x1="22" y1="17" x2="73" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#35D8FF"/>
+      <stop offset="0.55" stop-color="#0A84FF"/>
+      <stop offset="1" stop-color="#0757FF"/>
+    </linearGradient>
+    <linearGradient id="faceA" x1="48" y1="18" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#33D7FF" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#087DFF" stop-opacity="0.34"/>
+    </linearGradient>
+    <linearGradient id="faceB" x1="25" y1="38" x2="48" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A8EFF" stop-opacity="0.76"/>
+      <stop offset="1" stop-color="#0646D9" stop-opacity="0.42"/>
+    </linearGradient>
+    <linearGradient id="faceC" x1="72" y1="38" x2="48" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1EC9FF" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#082A85" stop-opacity="0.38"/>
+    </linearGradient>
+    <filter id="glow" x="5" y="5" width="86" height="86" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.02 0 0 0 0 0.56 0 0 0 0 1 0 0 0 0.85 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <circle cx="48" cy="48" r="39" fill="#061A3A" opacity="0.52"/>
+  <g filter="url(#glow)" stroke-linejoin="round">
+    <path d="M48 16L74 30.5L48 45.5L22 30.5L48 16Z" fill="url(#faceA)" stroke="url(#edge)" stroke-width="2.8"/>
+    <path d="M22 30.5L48 45.5V80L22 64.5V30.5Z" fill="url(#faceB)" stroke="url(#edge)" stroke-width="2.8"/>
+    <path d="M74 30.5L48 45.5V80L74 64.5V30.5Z" fill="url(#faceC)" stroke="url(#edge)" stroke-width="2.8"/>
+    <path d="M34.5 38L60.5 23" stroke="#8BEAFF" stroke-width="2" opacity="0.45"/>
+    <path d="M48 45.5V79" stroke="#7DE8FF" stroke-width="2" opacity="0.5"/>
+  </g>
+</svg>
