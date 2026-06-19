@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://autozap.log.br/sitemap.xml
