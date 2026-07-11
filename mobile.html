@@ -217,6 +217,16 @@
   <script>
     const API_BASE = 'https://aip.autozap.log.br';
 
+    // Indicacao de representante: captura ref/lead da URL (link do QR code) e mantem na sessao.
+    function getReferralParams() {
+      const params = new URLSearchParams(window.location.search);
+      const ref = (params.get('ref') || sessionStorage.getItem('autozap_ref') || '').trim();
+      const lead = (params.get('lead') || sessionStorage.getItem('autozap_lead') || '').trim();
+      if (ref) sessionStorage.setItem('autozap_ref', ref);
+      if (lead) sessionStorage.setItem('autozap_lead', lead);
+      return { ref, lead };
+    }
+
     const menu = document.querySelector('.menu');
     const drawer = document.querySelector('.drawer');
     const billingToggle = document.querySelector('.toggle');
@@ -321,7 +331,8 @@
         ciclo: state.cycle,
         billing_cycle: state.cycle,
         descricao: form.sobre.value.trim(),
-        sobre: form.sobre.value.trim()
+        sobre: form.sobre.value.trim(),
+        ...getReferralParams()
       };
     };
 

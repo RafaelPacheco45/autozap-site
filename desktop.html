@@ -3498,6 +3498,16 @@ a[class*="btn"]:hover::after {
   <script>
     const API_BASE = 'https://aip.autozap.log.br';
 
+    // Indicacao de representante: captura ref/lead da URL (link do QR code) e mantem na sessao.
+    function getReferralParams() {
+      const params = new URLSearchParams(window.location.search);
+      const ref = (params.get('ref') || sessionStorage.getItem('autozap_ref') || '').trim();
+      const lead = (params.get('lead') || sessionStorage.getItem('autozap_lead') || '').trim();
+      if (ref) sessionStorage.setItem('autozap_ref', ref);
+      if (lead) sessionStorage.setItem('autozap_lead', lead);
+      return { ref, lead };
+    }
+
     const PLAN_CONFIG = {
       essential: {
         label: 'AutoZap Básico',
@@ -3568,7 +3578,8 @@ a[class*="btn"]:hover::after {
         plan_label: selectedPlan.label,
         valor: selectedPlan.price,
         price: selectedPlan.price,
-        descricao: form.descricao.value.trim()
+        descricao: form.descricao.value.trim(),
+        ...getReferralParams()
       };
     }
 
