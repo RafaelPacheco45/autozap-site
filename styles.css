@@ -83,6 +83,7 @@ footer svg {
 }
 
 .brand {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -93,14 +94,26 @@ footer svg {
   text-shadow: none;
 }
 
+.brand::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  width: 57px;
+  height: 57px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 162, 255, .58) 0 28%, rgba(0, 132, 255, .24) 45%, transparent 70%);
+  pointer-events: none;
+}
+
 .brand img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 43px;
   height: 43px;
   object-fit: contain;
   object-position: center;
   flex: 0 0 auto;
-  filter: drop-shadow(0 0 10px rgba(0, 162, 255, .58));
 }
 
 .brand span span { color: var(--blue); }
