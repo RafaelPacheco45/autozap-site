@@ -84,6 +84,7 @@ footer svg {
 
 .brand {
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: 9px;
@@ -102,7 +103,10 @@ footer svg {
   height: 57px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(0, 162, 255, .58) 0 28%, rgba(0, 132, 255, .24) 45%, transparent 70%);
+  z-index: 0;
   pointer-events: none;
+  animation: logoGlow 1.45s ease-in-out infinite;
+  animation-delay: -.8s;
 }
 
 .brand img {
@@ -117,6 +121,22 @@ footer svg {
 }
 
 .brand span span { color: var(--blue); }
+
+.brand > span {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes logoGlow {
+  0%, 100% {
+    opacity: .55;
+    transform: scale(.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
 
 .menu {
   position: relative;

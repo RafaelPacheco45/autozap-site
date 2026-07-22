@@ -4,6 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AutoZap</title>
+    <link rel="preload" as="image" href="autozap-logo-mobile-96.png">
+    <script>
+      (() => {
+        const isMobile = window.matchMedia("(max-width: 853px)").matches;
+        const target = isMobile ? "mobile.html" : "desktop.html";
+        window.location.replace(target + window.location.search);
+      })();
+    </script>
     <meta name="description" content="AutoZap: IA, gestão e marketing para lojas de celulares.">
     <style>
       html,
@@ -40,7 +48,7 @@
   </head>
   <body>
     <main class="loader" aria-live="polite">
-      <img src="autozap-logo.png" alt="AutoZap">
+      <img src="autozap-logo-mobile-96.png" alt="AutoZap" width="96" height="96">
       <strong>Carregando AutoZap...</strong>
       <noscript>
         <p>
@@ -49,10 +57,5 @@
         </p>
       </noscript>
     </main>
-    <script>
-      const isMobile = window.matchMedia("(max-width: 853px)").matches;
-      const target = isMobile ? "mobile.html" : "desktop.html";
-      window.location.replace(target + window.location.search);
-    </script>
   </body>
 </html>
