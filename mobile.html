@@ -168,7 +168,7 @@
         <div><svg><use href="#icon-headset"/></svg>Suporte na configuração inicial</div>
         <button type="button" data-pay-button>Pagar com Mercado Pago</button>
         <p class="form-message" data-form-message aria-live="polite"></p>
-        <a href="https://suporte.autozap.log.br/" target="_blank" rel="noopener noreferrer">Falar com suporte</a>
+        <a href="https://suporte.autozap.log.br/?source=autozap-site" target="_blank" rel="noopener noreferrer" data-support-link>Falar com suporte</a>
       </aside>
       <h3 class="includes-title"><svg><use href="#icon-star"/></svg> O que cada plano inclui</h3>
       <div class="include-grid">
@@ -371,6 +371,13 @@
         payButton.disabled = false;
         payButton.textContent = 'Pagar com Mercado Pago';
       }
+    });
+
+    document.querySelectorAll('[data-support-link]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.open('https://suporte.autozap.log.br/?source=autozap-site', '_blank', 'noopener,noreferrer');
+      });
     });
 
     renderState();
