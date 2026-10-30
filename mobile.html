@@ -129,7 +129,7 @@
     <section id="ativacao" class="section activation bg-hall">
       <div class="pill"><span></span> Ativação</div>
       <h2>Preencha as informações da <strong>sua loja</strong></h2>
-      <p>Informe os dados abaixo, escolha o plano ideal e finalize com segurança. A ativação é rápida e seu sistema fica pronto para usar.</p>
+      <p>Escolha seu plano mensal e conclua a assinatura no Mercado Pago. A renovação é automática. Você pode cancelar na sua conta Mercado Pago e continuar usando o período já pago.</p>
       <form class="form-card" novalidate>
         <h3>Dados para ativação</h3>
         <label><span>Nome completo</span><input name="nome" autocomplete="name" required placeholder="Ex.: João da Silva"></label>
@@ -152,7 +152,7 @@
         <div><i data-lucide="lock-keyhole" aria-hidden="true"></i>Pagamento seguro via Mercado Pago</div>
         <div><i data-lucide="zap" aria-hidden="true"></i>Liberação automática após aprovação</div>
         <div><i data-lucide="headset" aria-hidden="true"></i>Suporte na configuração inicial</div>
-        <button type="button" data-pay-button>Pagar com Mercado Pago</button>
+        <button type="button" data-pay-button>Assinar com Mercado Pago</button>
         <p class="form-message" data-form-message aria-live="polite"></p>
         <a href="https://suporte.autozap.log.br/?source=autozap-site" target="_blank" rel="noopener noreferrer" data-support-link>Falar com suporte</a>
       </aside>
@@ -373,7 +373,7 @@
         setMessage(error.message || 'Erro ao conectar com o servidor.', 'error');
       } finally {
         payButton.disabled = false;
-        payButton.textContent = 'Pagar com Mercado Pago';
+        payButton.textContent = 'Assinar com Mercado Pago';
       }
     });
 
