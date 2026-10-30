@@ -3520,6 +3520,17 @@ a[class*="btn"]:hover::after {
   <script src="vendor/lucide-autozap.js"></script>
   <script>
     const API_BASE = 'https://aip.autozap.log.br';
+    // Reuse one provider checkout when the same form is retried after a network error.
+    // Credentials stay in page memory and are never saved in browser storage.
+    let checkoutAttempt = null;
+    function checkoutPayload(data) {
+      const signature = JSON.stringify(data);
+      if (!checkoutAttempt || checkoutAttempt.signature !== signature) {
+        checkoutAttempt = { signature, key: crypto.randomUUID() };
+      }
+      return { ...data, idempotencyKey: checkoutAttempt.key };
+    }
+
 
     function makeIcon(name) {
       const icon = document.createElement('i');
@@ -3665,7 +3676,7 @@ a[class*="btn"]:hover::after {
         return false;
       }
 
-      if (!data.email.includes('@') || !data.email.includes('.')) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) || !document.getElementById('email').checkValidity()) {
         setCheckoutStatus('Digite um e-mail válido.', 'error');
         return false;
       }
@@ -3693,6 +3704,11 @@ a[class*="btn"]:hover::after {
       planSelect.addEventListener('change', (e) => setPlan(e.target.value));
     }
 
+    document.getElementById('checkout-form').addEventListener('submit', event => {
+      event.preventDefault();
+      if (!mpButton.disabled) mpButton.click();
+    });
+
     if (mpButton) {
       mpButton.addEventListener('click', async () => {
         const formData = collectCheckoutForm();
@@ -3708,7 +3724,7 @@ a[class*="btn"]:hover::after {
           const res = await fetch(`${API_BASE}/create-checkout`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(checkoutPayload(formData))
           });
 
           const data = await res.json().catch(() => ({}));

@@ -174,6 +174,17 @@
   <script>
     autozapIcons.createIcons();
     const API_BASE = 'https://aip.autozap.log.br';
+    // Reuse one provider checkout when the same form is retried after a network error.
+    // Credentials stay in page memory and are never saved in browser storage.
+    let checkoutAttempt = null;
+    function checkoutPayload(data) {
+      const signature = JSON.stringify(data);
+      if (!checkoutAttempt || checkoutAttempt.signature !== signature) {
+        checkoutAttempt = { signature, key: crypto.randomUUID() };
+      }
+      return { ...data, idempotencyKey: checkoutAttempt.key };
+    }
+
 
     // Indicacao de representante: captura ref/lead da URL (link do QR code) e mantem na sessao.
     function getReferralParams() {
@@ -308,6 +319,11 @@
       if (formMessage.classList.contains('error')) setMessage();
     });
 
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (!payButton.disabled) payButton.click();
+    });
+
     payButton.addEventListener('click', async () => {
       const invalidFields = [...form.querySelectorAll('input, select, textarea')]
         .filter((field) => !field.checkValidity());
@@ -332,7 +348,7 @@
         const response = await fetch(`${API_BASE}/create-checkout`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(collectCheckoutForm())
+          body: JSON.stringify(checkoutPayload(collectCheckoutForm()))
         });
 
         const data = await response.json().catch(() => ({}));
